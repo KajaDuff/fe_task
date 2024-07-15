@@ -6,6 +6,7 @@ import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider } 
 import { HomePage } from './pages/Home/HomePage';
 import App from './App';
 import { AttributesPage } from './pages/Attributes/AttributesPage';
+import { AttributeDetailPage } from './pages/AttributeDetail/AttributeDetailPage';
 
 
 const router = createBrowserRouter(
@@ -13,6 +14,7 @@ const router = createBrowserRouter(
     <Route path="/" element={<App />}>
       <Route index element={<HomePage />} />
       <Route path="/attributes" element={<AttributesPage />} />
+      <Route path="/attributes/:id" element={<AttributeDetailPage />} />
     </Route>
   )
 )

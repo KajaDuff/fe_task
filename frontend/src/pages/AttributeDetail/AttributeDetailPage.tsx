@@ -2,15 +2,15 @@ import { Container, Typography } from '@mui/material';
 
 
 
-export const HomePage = () => {
+export const AttributeDetailPage = () => {
 
     return (
         <Container sx={{ justifyContent: "center", alignItems: "center", overflow: "hidden", display: "flex" }}>
             <div>
                 <Typography variant='h4'>
-                    Welcome to Simple React App
+                    attribude detail page
                 </Typography>
-                <Typography>Onboarding frontend task - 2024</Typography>
+                <Typography>TBD</Typography>
             </div>
         </Container>
     )

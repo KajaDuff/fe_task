@@ -83,7 +83,7 @@ export async function getLabels(params: LabelsQueryParams = {}): Promise<LabelsR
 			limit: limit.toString(),
 		}).toString();
 
-		const { data } = await axiosInstance.get<AttributesResponse>(`${BASE_API_URL}/attributes?${queryString}`);
+		const { data } = await axiosInstance.get<AttributesResponse>(`${BASE_API_URL}/labels?${queryString}`);
 		return data;
 	} catch (error) {
 		throw handleApiError(error, "getLabels");

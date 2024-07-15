@@ -7,7 +7,7 @@ type Attribute = {
     id: string;
     name: string;
     createdAt: string; // ISO8601
-    labelIds: Array<Label>;
+    labelIds: Array<string>;
     deleted: boolean;
 };
 
