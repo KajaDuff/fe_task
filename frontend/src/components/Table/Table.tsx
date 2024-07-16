@@ -19,35 +19,38 @@ type TableProps = {
 	labels: Label[];
 	onRowClick: (id: string) => void;
 	onSearch: React.Dispatch<React.SetStateAction<string>>
-	onDelete: (id: string) => void;
+	onDelete: (id: string, name: string) => void;
 }
 
 
-export const Table = ({ data, labels, onRowClick, onSearch }: TableProps) => {
+export const Table = ({ data, labels, onRowClick, onSearch, onDelete }: TableProps) => {
 	const [value, setValue] = useState<string>('')
 
 	const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+		// TODO: debouncer
 		setValue(e.target.value)
 		onSearch(e.target.value)
 	}, [])
 
+	const handleButtonClick = useCallback((event: { stopPropagation: () => void; }, id: string, name: string) => {
+		event.stopPropagation(); // Stop the row click event
+		onDelete(id, name)
+	}, [onDelete])
 
 
 	const tableRows = useMemo(() => {
-
 		return data.map((row) => {
 			// get label names based on ids
 			const labelNames = row.labelIds.map(labelId => {
 				return labels.find((e) => e.id === labelId)?.name
 			});
 
-
 			return <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }} onClick={() => onRowClick(row.id)}>
 				<TableCell align="left">{row.name}</TableCell>
 				<TableCell component="th" scope="row">{labelNames.join(', ')}</TableCell>
 				<TableCell component="th" scope="row">{row.createdAt}</TableCell>
 				<TableCell align="right">
-					<Button >
+					<Button onClick={(e) => handleButtonClick(e, row.id, row.name)}>
 						Delete
 					</Button>
 				</TableCell>

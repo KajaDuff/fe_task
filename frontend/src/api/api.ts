@@ -45,9 +45,8 @@ export async function getAttributes(params: AttributesQueryParams = {}): Promise
 }
 
 
-export async function getAttributeById(id: string): Promise<AttributeByIdResponse> {
+export async function getAttributeById(id: string | undefined): Promise<AttributeByIdResponse> {
 	try {
-
 		const { data } = await axiosInstance.get<AttributeByIdResponse>(`${BASE_API_URL}/attributes/${id}`);
 		return data;
 
