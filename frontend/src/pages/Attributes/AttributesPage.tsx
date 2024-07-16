@@ -15,6 +15,7 @@ export const AttributesPage = () => {
     const [attributes, setAttributes] = useState<Attribute[]>([]);
     const [labels, setLabels] = useState<Label[]>([]);
     const [selectedAttribute, setSelectedAttribute] = useState<{ id: string, name: string }>({ id: "", name: "" })
+    const [sortParams, setSortParams] = useState<{ sortBy: "name" | "createdAt", sortDir: "asc" | "desc" }>({ sortBy: "name", sortDir: "asc" })
     const [deletedAttribute, setDeletedAttribute] = useState<string | null>(null)
 
     const navigate = useNavigate();
@@ -23,7 +24,7 @@ export const AttributesPage = () => {
     useEffect(() => {
         async function fetchData() {
             try {
-                const responseAttributes = await getAttributes({ searchText: searchValue });
+                const responseAttributes = await getAttributes({ searchText: searchValue, sortBy: sortParams.sortBy, sortDir: sortParams.sortDir });
                 setAttributes(responseAttributes.data);
                 const labelsResponse = await getLabels()
                 setLabels(labelsResponse.data)
@@ -32,7 +33,7 @@ export const AttributesPage = () => {
             }
         }
         fetchData();
-    }, [searchValue]);
+    }, [searchValue, sortParams.sortDir]);
 
 
     const onRowClick = useCallback((id: string) => {
@@ -64,7 +65,7 @@ export const AttributesPage = () => {
     return (
         <>
             {deletedAttribute && <Alert severity="success" sx={{ marginBlock: "1rem" }} onClose={() => setDeletedAttribute(null)}>{`Attribute "${deletedAttribute}" deleted succesfully`}</Alert>}
-            <Table data={attributes} labels={labels} onRowClick={onRowClick} onSearch={setSearchValue} onDelete={handleOpenModal} />
+            <Table data={attributes} labels={labels} onRowClick={onRowClick} onSearch={setSearchValue} onDelete={handleOpenModal} onSort={setSortParams} sortParams={sortParams} />
             <Modal isOpen={isOpen} handleClose={handleClose} handleConfirm={handleDeletion} attribute={selectedAttribute} />
         </>
 

@@ -2,6 +2,7 @@ import { ChangeEvent, useCallback, useMemo, useState } from 'react'
 
 import { Search as SearchIcon } from '@mui/icons-material'
 import {
+	Box,
 	Button,
 	Input,
 	InputAdornment,
@@ -12,6 +13,7 @@ import {
 	TableContainer,
 	TableHead,
 	TableRow,
+	TableSortLabel,
 } from '@mui/material'
 
 type TableProps = {
@@ -20,10 +22,15 @@ type TableProps = {
 	onRowClick: (id: string) => void;
 	onSearch: React.Dispatch<React.SetStateAction<string>>
 	onDelete: (id: string, name: string) => void;
+	onSort: React.Dispatch<React.SetStateAction<{
+		sortBy: "name" | "createdAt";
+		sortDir: "asc" | "desc";
+	}>>
+	sortParams: { sortBy: "name" | "createdAt", sortDir: "asc" | "desc" }
 }
 
 
-export const Table = ({ data, labels, onRowClick, onSearch, onDelete }: TableProps) => {
+export const Table = ({ data, labels, onRowClick, onSearch, onDelete, onSort, sortParams }: TableProps) => {
 	const [value, setValue] = useState<string>('')
 
 	const onChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -36,6 +43,13 @@ export const Table = ({ data, labels, onRowClick, onSearch, onDelete }: TablePro
 		event.stopPropagation(); // Stop the row click event
 		onDelete(id, name)
 	}, [onDelete])
+
+
+	const handleSort = useCallback((sortBy: "name" | "createdAt") => {
+		const direction = sortParams.sortDir === "asc" ? "desc" : "asc"
+		onSort({ sortBy, sortDir: direction })
+	}, [sortParams.sortDir, onSort])
+
 
 
 	const tableRows = useMemo(() => {
@@ -66,9 +80,27 @@ export const Table = ({ data, labels, onRowClick, onSearch, onDelete }: TablePro
 			<MuiTable sx={{ minWidth: 650 }} aria-label="simple table" stickyHeader>
 				<TableHead>
 					<TableRow>
-						<TableCell>Name</TableCell>
+						<TableCell>
+							<TableSortLabel
+								active={sortParams.sortBy === "name"}
+								direction={sortParams.sortBy === "name" ? sortParams.sortDir : 'asc'}
+								onClick={() => handleSort("name")}
+							>
+								{"Name"}
+							</TableSortLabel>
+
+						</TableCell>
 						<TableCell>Labels</TableCell>
-						<TableCell>Created At</TableCell>
+						<TableCell>
+							<TableSortLabel
+								active={sortParams.sortBy === "createdAt"}
+								direction={sortParams.sortBy === "createdAt" ? sortParams.sortDir : 'asc'}
+								onClick={() => handleSort("createdAt")}
+							>
+								{"Created At"}
+							</TableSortLabel>
+
+						</TableCell>
 						<TableCell align="right">
 							<Input
 								autoComplete="off"
