@@ -6,6 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ReplyIcon from '@mui/icons-material/Reply';
 import { Modal } from 'src/components/Modal/Modal';
 import { useOpenHandler } from 'src/hooks/useOpenHandler';
+import { RoutesEnum } from 'src/constants/routes';
 
 
 
@@ -29,8 +30,7 @@ export const AttributeDetailPage = () => {
                 setFormattedDate(new Date(responseAttribute.data.createdAt).toLocaleString())
                 setLabels(labelsResponse.data)
             } catch (error: any) {
-                // TODO: 
-                console.error(error)
+                navigate(RoutesEnum.Error)
             }
         }
         fetchData();
@@ -45,8 +45,7 @@ export const AttributeDetailPage = () => {
     }, [data, labels])
 
     const handleStepBack = useCallback(() => {
-        // TODO: routes enum
-        navigate(`/attributes`);
+        navigate(RoutesEnum.Atribbutes);
     }, [navigate])
 
 
@@ -57,11 +56,10 @@ export const AttributeDetailPage = () => {
                 setDeletedAttribute(deletedAttribute.data.name)
                 // close modal
                 handleClose()
-                navigate(`/attributes`);
+                navigate(RoutesEnum.Atribbutes);
             }
             catch (error: any) {
-                // TODO: 
-                console.error(error)
+                navigate(RoutesEnum.Error)
             }
         }
         deleteData(id)

@@ -7,14 +7,17 @@ import { HomePage } from './pages/Home/HomePage';
 import App from './App';
 import { AttributesPage } from './pages/Attributes/AttributesPage';
 import { AttributeDetailPage } from './pages/AttributeDetail/AttributeDetailPage';
+import { ErrorPage } from './pages/Error/ErrorPage';
+import { RoutesEnum } from './constants/routes';
 
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App />}>
+    <Route path={RoutesEnum.Home} element={<App />}>
       <Route index element={<HomePage />} />
-      <Route path="/attributes" element={<AttributesPage />} />
-      <Route path="/attributes/:id" element={<AttributeDetailPage />} />
+      <Route path={RoutesEnum.Error} element={<ErrorPage />} />
+      <Route path={RoutesEnum.Atribbutes} element={<AttributesPage />} />
+      <Route path={RoutesEnum.AttributeDetail} element={<AttributeDetailPage />} />
     </Route>
   )
 )

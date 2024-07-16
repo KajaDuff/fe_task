@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useOpenHandler } from 'src/hooks/useOpenHandler';
 import { Modal } from 'src/components/Modal/Modal';
 import { Alert } from '@mui/material';
+import { RoutesEnum } from 'src/constants/routes';
 
 
 
@@ -27,8 +28,7 @@ export const AttributesPage = () => {
                 const labelsResponse = await getLabels()
                 setLabels(labelsResponse.data)
             } catch (error: any) {
-                // TODO: 
-                console.error(error)
+                navigate(RoutesEnum.Error)
             }
         }
         fetchData();
@@ -36,8 +36,7 @@ export const AttributesPage = () => {
 
 
     const onRowClick = useCallback((id: string) => {
-        // TODO: routes enum
-        navigate(`/attributes/${id}`);
+        navigate(`${RoutesEnum.Atribbutes}/${id}`);
     }, [])
 
     const handleOpenModal = useCallback((id: string, name: string) => {
@@ -54,8 +53,7 @@ export const AttributesPage = () => {
                 handleClose()
             }
             catch (error: any) {
-                // TODO: 
-                console.error(error)
+                navigate(RoutesEnum.Error)
             }
         }
         deleteData(id)
