@@ -18,22 +18,33 @@ export const AttributesPage = () => {
     const [sortParams, setSortParams] = useState<{ sortBy: "name" | "createdAt", sortDir: "asc" | "desc" }>({ sortBy: "name", sortDir: "asc" })
     const [deletedAttribute, setDeletedAttribute] = useState<string | null>(null)
 
+
     const navigate = useNavigate();
     const { isOpen, handleOpen, handleClose } = useOpenHandler()
 
     useEffect(() => {
-        async function fetchData() {
+        async function fetchAttributes() {
             try {
                 const responseAttributes = await getAttributes({ searchText: searchValue, sortBy: sortParams.sortBy, sortDir: sortParams.sortDir });
                 setAttributes(responseAttributes.data);
+            } catch (error: any) {
+                navigate(RoutesEnum.Error)
+            }
+        }
+        fetchAttributes();
+    }, [searchValue, sortParams.sortDir]);
+
+    useEffect(() => {
+        async function fetchLabels() {
+            try {
                 const labelsResponse = await getLabels()
                 setLabels(labelsResponse.data)
             } catch (error: any) {
                 navigate(RoutesEnum.Error)
             }
         }
-        fetchData();
-    }, [searchValue, sortParams.sortDir]);
+        fetchLabels();
+    }, []);
 
 
     const onRowClick = useCallback((id: string) => {
@@ -65,7 +76,7 @@ export const AttributesPage = () => {
     return (
         <>
             {deletedAttribute && <Alert severity="success" sx={{ marginBlock: "1rem" }} onClose={() => setDeletedAttribute(null)}>{`Attribute "${deletedAttribute}" deleted succesfully`}</Alert>}
-            <Table data={attributes} labels={labels} onRowClick={onRowClick} onSearch={setSearchValue} onDelete={handleOpenModal} onSort={setSortParams} sortParams={sortParams} />
+            <Table data={attributes} labels={labels} onRowClick={onRowClick} onSearch={setSearchValue} onDelete={handleOpenModal} onSort={setSortParams} sortParams={sortParams} setAttributes={setAttributes} />
             <Modal isOpen={isOpen} handleClose={handleClose} handleConfirm={handleDeletion} attribute={selectedAttribute} />
         </>
 
