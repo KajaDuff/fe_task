@@ -1,9 +1,9 @@
 
 
 import './App.css'
-import { Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom'
 import { CustomAppBar } from './components/AppBar/AppBar'
-import { Box, CssBaseline, Toolbar } from '@mui/material';
+import { CssBaseline, Toolbar } from '@mui/material'
 
 
 function App() {

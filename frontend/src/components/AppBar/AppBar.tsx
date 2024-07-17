@@ -1,23 +1,21 @@
-import { useState } from 'react';
-import { AppBar, Box, CssBaseline, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemText, Toolbar, Typography, Button } from '@mui/material';
+import { useState } from 'react'
+import { AppBar, Box, CssBaseline, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemText, Toolbar, Typography, Button } from '@mui/material'
 
-import { Menu as MenuIcon } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
+import { Menu as MenuIcon } from '@mui/icons-material'
+import { Link } from 'react-router-dom'
 
 
-
-// TODO: move to constants and add typescript
-const DRAWER_WIDTH = 240;
-const NAV_ITEMS = [{ id: 1, title: 'Home', path: "/" }, { id: 2, title: 'Attributes', path: "/attributes" }];
-const APP_TITLE = "Simple React App"
+const DRAWER_WIDTH = 240
+const NAV_ITEMS = [{ id: 1, path: '/', title: 'Home' }, { id: 2, path: '/attributes', title: 'Attributes' }]
+const APP_TITLE = 'Simple React App'
 
 export const CustomAppBar = () => {
 
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   const handleDrawerToggle = () => {
-    setMobileOpen((prevState) => !prevState);
-  };
+    setMobileOpen((prevState) => !prevState)
+  }
 
 
   const drawer = (
@@ -36,7 +34,7 @@ export const CustomAppBar = () => {
         ))}
       </List>
     </Box>
-  );
+  )
 
 
   return (
@@ -49,20 +47,20 @@ export const CustomAppBar = () => {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{ display: { sm: 'none' }, mr: 2 }}
           >
             <MenuIcon />
           </IconButton>
           <Typography
             variant="h6"
             component="div"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' }, textAlign: 'start' }}
+            sx={{ display: { sm: 'block', xs: 'none' }, flexGrow: 1, textAlign: 'start' }}
           >
             {APP_TITLE}
           </Typography>
-          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+          <Box sx={{ display: { sm: 'block', xs: 'none' } }}>
             {NAV_ITEMS.map((item) => (
-              <Button key={item.id} sx={{ color: '#fff' }} component={Link} to={item.path}>
+              <Button key={item.id} sx={{ color: '#fff' }} component={Link} to={item.path} onClick={() => localStorage.clear()}>
                 {item.title}
               </Button>
             ))}
@@ -78,14 +76,14 @@ export const CustomAppBar = () => {
             keepMounted: true,
           }}
           sx={{
-            display: { xs: 'block', sm: 'none' },
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: DRAWER_WIDTH },
+            display: { sm: 'none', xs: 'block' },
           }}
         >
           {drawer}
         </Drawer>
       </nav>
-    </Box>
+    </Box >
 
-  );
+  )
 }

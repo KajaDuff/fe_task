@@ -1,52 +1,55 @@
-type Label = {
+export type Label = {
     id: string;
     name: string;
 };
 
-type Attribute = {
-    id: string;
-    name: string;
-    createdAt: string; // ISO8601
-    labelIds: Array<string>;
+export type Attribute = {
+    createdAt: string;
     deleted: boolean;
+    id: string; // ISO8601
+    labelIds: Array<string>;
+    name: string;
 };
 
-type AttributesQueryParams = {
-    offset?: number;
+export type SortBy = 'name' | 'createdAt';
+export type SortDir = 'asc' | 'desc'
+
+export type AttributesQueryParams = {
     limit?: number;
+    offset?: number;
     searchText?: string;
-    sortBy?: "name" | "createdAt";
-    sortDir?: "asc" | "desc";
+    sortBy?: SortBy;
+    sortDir?: SortDir;
 };
 
 
-type AttributesResponse = {
+export type AttributesResponse = {
     data: Array<Attribute>;
     meta: {
-        offset: number;
-        limit: number;
-        searchText: string;
-        sortBy: "name" | "createdAt";
-        sortDir: "asc" | "desc";
         hasNextPage: boolean;
+        limit: number;
+        offset: number;
+        searchText: string;
+        sortBy: SortBy;
+        sortDir: SortDir;
     };
 };
 
-type AttributeByIdResponse = {
+export type AttributeByIdResponse = {
     data: Attribute
 }
 
-type LabelsQueryParams = {
-    offset?: number;
+export type LabelsQueryParams = {
     limit?: number;
+    offset?: number;
 }
 
-type LabelsResponse = {
+export type LabelsResponse = {
     data: Array<Label>;
     meta: {
-        offset: number;
-        limit: number;
         hasNextPage: boolean;
+        limit: number;
+        offset: number;
     };
 
 }

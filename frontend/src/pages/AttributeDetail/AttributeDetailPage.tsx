@@ -1,51 +1,52 @@
-import { Alert, Box, Button, Container, Grid, Stack, Typography } from '@mui/material';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { deleteAttributeById, getAttributeById, getLabels } from 'src/api/api';
-import { useParams, useNavigate } from 'react-router-dom';
-import DeleteIcon from '@mui/icons-material/Delete';
-import ReplyIcon from '@mui/icons-material/Reply';
-import { Modal } from 'src/components/Modal/Modal';
-import { useOpenHandler } from 'src/hooks/useOpenHandler';
-import { RoutesEnum } from 'src/constants/routes';
+import { Button, Container, Stack, Typography } from '@mui/material'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { deleteAttributeById, getAttributeById, getLabels } from 'src/api/api'
+import { useParams, useNavigate } from 'react-router-dom'
+import DeleteIcon from '@mui/icons-material/Delete'
+import ReplyIcon from '@mui/icons-material/Reply'
+import { Modal } from 'src/components/Modal/Modal'
+import { useOpenHandler } from 'src/hooks/useOpenHandler'
+import { RoutesEnum } from 'src/constants/routes'
+import { Attribute, Label } from 'src/types/ApiTypes'
 
 
 
 export const AttributeDetailPage = () => {
     const [data, setData] = useState<Attribute>()
     const [formattedDate, setFormattedDate] = useState<string>()
-    const [labels, setLabels] = useState<Label[]>([]);
-    const [deletedAttribute, setDeletedAttribute] = useState<string | null>(null)
+    const [labels, setLabels] = useState<Label[]>([])
+    const [_deletedAttribute, setDeletedAttribute] = useState<string | null>(null)
 
-    let { id } = useParams();
-    const navigate = useNavigate();
+    const { id } = useParams()
+    const navigate = useNavigate()
     const { isOpen, handleOpen, handleClose } = useOpenHandler()
 
     useEffect(() => {
         if (!id) return
         async function fetchData() {
             try {
-                const responseAttribute = await getAttributeById(id);
+                const responseAttribute = await getAttributeById(id)
                 const labelsResponse = await getLabels()
-                setData(responseAttribute.data);
+                setData(responseAttribute.data)
                 setFormattedDate(new Date(responseAttribute.data.createdAt).toLocaleString())
                 setLabels(labelsResponse.data)
             } catch (error: any) {
                 navigate(RoutesEnum.Error)
             }
         }
-        fetchData();
-    }, [id]);
+        fetchData()
+    }, [id, navigate])
 
     const labelNames = useMemo(() => {
         if (!data) return
         const names = data.labelIds.map(labelId => {
             return labels.find((e) => e.id === labelId)?.name
-        });
-        return names.join(", ")
+        })
+        return names.join(', ')
     }, [data, labels])
 
     const handleStepBack = useCallback(() => {
-        navigate(RoutesEnum.Atribbutes);
+        navigate(RoutesEnum.Atribbutes)
     }, [navigate])
 
 
@@ -56,28 +57,28 @@ export const AttributeDetailPage = () => {
                 setDeletedAttribute(deletedAttribute.data.name)
                 // close modal
                 handleClose()
-                navigate(RoutesEnum.Atribbutes);
+                navigate(RoutesEnum.Atribbutes)
             }
             catch (error: any) {
                 navigate(RoutesEnum.Error)
             }
         }
         deleteData(id)
-    }, [])
+    }, [navigate, handleClose])
 
 
     if (!data) return
     return (
-        <Container sx={{ justifyContent: "center", alignItems: "center", overflow: "hidden", display: "flex", flexDirection: "column" }}>
+        <Container sx={{ alignItems: 'center', display: 'flex', flexDirection: 'column', justifyContent: 'center', overflow: 'hidden' }}>
 
             <div>
-                <Typography variant='h4' sx={{ marginBlockEnd: "1rem" }}>
+                <Typography variant='h4' sx={{ marginBlockEnd: '1rem' }}>
                     {data?.name}
                 </Typography>
                 <Typography>Created at: {formattedDate}</Typography>
                 <Typography>Labels: {labelNames}</Typography>
             </div>
-            <Stack direction="column" spacing={2} sx={{ margin: "2rem" }}>
+            <Stack direction="column" spacing={2} sx={{ margin: '2rem' }}>
                 <Button variant="contained" color="error" startIcon={<DeleteIcon />} onClick={handleOpen}>
                     Delete
                 </Button>

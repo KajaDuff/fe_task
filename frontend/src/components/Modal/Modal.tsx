@@ -1,16 +1,15 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogTitle from '@mui/material/DialogTitle';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { Stack } from '@mui/material';
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogTitle from '@mui/material/DialogTitle'
+import DeleteIcon from '@mui/icons-material/Delete'
+import { Stack } from '@mui/material'
 
 type ModalProps = {
-    handleClose: () => void
-    isOpen: boolean
+    attribute: { id: string, name: string },
+    handleClose: () => void,
     handleConfirm: (id: string) => void
-    attribute: { id: string, name: string }
+    isOpen: boolean
 
 }
 
@@ -27,7 +26,7 @@ export const Modal = ({ handleClose, handleConfirm, isOpen, attribute }: ModalPr
                 {`Delete the attribute "${attribute.name}" with ID ${attribute.id}?`}
             </DialogTitle>
             <DialogActions>
-                <Stack direction="row" spacing={2} sx={{ margin: "1rem" }}>
+                <Stack direction="row" spacing={2} sx={{ margin: '1rem' }}>
                     <Button onClick={handleClose} variant="contained" color="primary">Return</Button>
                     <Button onClick={() => handleConfirm(attribute.id)} autoFocus variant="contained" color="error" startIcon={<DeleteIcon />}>
                         Delete
@@ -36,5 +35,5 @@ export const Modal = ({ handleClose, handleConfirm, isOpen, attribute }: ModalPr
             </DialogActions>
         </Dialog>
 
-    );
+    )
 }

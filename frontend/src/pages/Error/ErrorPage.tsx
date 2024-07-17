@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material'
 
 
 
@@ -7,14 +7,14 @@ export const ErrorPage = () => {
     return (
         <Box
             sx={{
-                display: 'flex',
-                justifyContent: 'center',
                 alignItems: 'center',
-                position: "fixed",
+                display: 'flex',
+                height: '100vh',
+                justifyContent: 'center',
                 left: 0,
+                position: 'fixed',
                 top: 0,
-                height: "100vh",
-                width: "100vw"
+                width: '100vw'
             }}
         >
             <div>
@@ -24,6 +24,6 @@ export const ErrorPage = () => {
                 <Typography>Please try again later.</Typography>
             </div>
         </Box>
-    );
+    )
 
 }
